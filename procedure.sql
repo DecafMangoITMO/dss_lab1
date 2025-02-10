@@ -10,16 +10,16 @@ CREATE OR REPLACE PROCEDURE lab_1(table_name text) AS $$
             WHERE tablename = table_name
         )
         THEN
-            RAISE NOTICE 'Таблица: %', table_name;
-            RAISE NOTICE ' ';
+            RAISE NOTICE E'\rТаблица: %', table_name;
+            RAISE NOTICE E'\r%', repeat(' ', 7);
         ELSE
-            RAISE NOTICE 'Таблица ''%'' не найдена', table_name;
+            RAISE NOTICE E'\rТаблица ''%'' не найдена', table_name;
             RETURN;
         END IF;
 
         -- Print headers and underline
-        RAISE NOTICE 'No. Имя столбца       Атрибуты';
-        RAISE NOTICE ' % % %',
+        RAISE NOTICE  E'\rNo. Имя столбца       Атрибуты';
+        RAISE NOTICE  E'\r% % %',
             repeat('-', 3),
             repeat('-', 17),
             repeat('-', 54)
@@ -40,7 +40,7 @@ CREATE OR REPLACE PROCEDURE lab_1(table_name text) AS $$
             AND a.attnum > 0 -- attributes made by user have positive numbers
         )
         LOOP
-            RAISE NOTICE '% % Type: % %',
+            RAISE NOTICE  E'\r% % Type: % %',
                 rpad(row_counter::text, 4),
                 rpad(row.attname, 17),
                 row.typname,
@@ -48,13 +48,13 @@ CREATE OR REPLACE PROCEDURE lab_1(table_name text) AS $$
 
             IF row.description IS NOT NULL
             THEN
-                RAISE NOTICE '% COMMEN: %',
+                RAISE NOTICE  E'\r% COMMEN: %',
                     repeat(' ', 22),
                     row.description;
             END IF;
 
             IF row.contype IS NOT NULL THEN
-                RAISE NOTICE '% Constraint: %',
+                RAISE NOTICE  E'\r% Constraint: %',
                     repeat(' ', 22),
                     CASE row.contype
                         WHEN 'c' THEN 'Check'
