@@ -19,7 +19,7 @@ CREATE OR REPLACE PROCEDURE lab_1(table_name text) AS $$
 
         -- Print headers and underline
         RAISE NOTICE 'No. Имя столбца       Атрибуты';
-        RAISE NOTICE '        % % %',
+        RAISE NOTICE ' % % %',
             repeat('-', 3),
             repeat('-', 17),
             repeat('-', 54)
@@ -48,14 +48,14 @@ CREATE OR REPLACE PROCEDURE lab_1(table_name text) AS $$
 
             IF row.description IS NOT NULL
             THEN
-                RAISE NOTICE '|% COMMEN: %',
-                    repeat(' ', 21),
+                RAISE NOTICE '% COMMEN: %',
+                    repeat(' ', 22),
                     row.description;
             END IF;
 
             IF row.contype IS NOT NULL THEN
-                RAISE NOTICE '|% Constraint: %',
-                    repeat(' ', 21),
+                RAISE NOTICE '% Constraint: %',
+                    repeat(' ', 22),
                     CASE row.contype
                         WHEN 'c' THEN 'Check'
                         WHEN 'f' THEN 'Foreign key'
