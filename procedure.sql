@@ -29,6 +29,7 @@ CREATE OR REPLACE PROCEDURE lab_1(table_name text) AS $$
             SELECT
                 a.attname,
                 t.typname,
+                a.atttypmod,
                 a.attnotnull,
                 d.description,
                 c.contype
@@ -43,8 +44,8 @@ CREATE OR REPLACE PROCEDURE lab_1(table_name text) AS $$
             RAISE NOTICE  E'\r% % Type: % %',
                 rpad(row_counter::text, 4),
                 rpad(row.attname, 17),
-                row.typname,
-                 CASE WHEN row.attnotnull THEN 'Not null' ELSE '' END;
+                CASE WHEN row.atttypmod != -1 THEN row.typname || '(' || (row.atttypmod) || ')' ELSE row.typname END,
+                CASE WHEN row.attnotnull THEN 'Not null' ELSE '' END;
 
             IF row.description IS NOT NULL
             THEN
